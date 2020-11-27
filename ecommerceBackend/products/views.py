@@ -4,7 +4,14 @@ from rest_framework import status
 from .models import *
 from .serializer import ProductsSerializer, CategorySerializer
 from rest_framework import generics
+# permissions
+from rest_framework.permissions import IsAuthenticated
 
+
+class DemoView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        return Response({'success': 'LoggedIn successfully'}, status=status.HTTP_200_OK)
 
 class ProductsView(APIView):
     
