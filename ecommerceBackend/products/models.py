@@ -49,3 +49,10 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    image = models.ImageField(upload_to='static/products')
+    # def __str__(self):
+    #     return 
