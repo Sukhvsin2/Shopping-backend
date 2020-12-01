@@ -16,6 +16,16 @@ class DemoView(APIView):
 class ProductsView(APIView):
     
     def get(self, request):
-        queryset = Product.objects.all()
+        category = self.request.query_params.get('category')
+        if category:
+            queryset = Product.objects.filter(category__category_name= category)
+        else:
+            queryset = Product.objects.all()
         serializer = ProductsSerializer(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+
+        context = {
+            'total_count': len(serializer.data),
+            'data': serializer.data
+        }
+
+        return Response(context, status=status.HTTP_200_OK)
