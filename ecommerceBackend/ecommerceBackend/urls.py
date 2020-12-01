@@ -9,4 +9,5 @@ urlpatterns = [
     path('', views.FrontPage.as_view(), name='FrontPage'),
     path('api/products/', include(productUrls)),
     path('api/accounts/', include(accountUrls)),
+    path('api/cart/', include('carts.urls'))
 ]
