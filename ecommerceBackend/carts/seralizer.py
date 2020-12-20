@@ -15,3 +15,8 @@ class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItems
         fields = '__all__'
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Orders
+        fields = '__all__'

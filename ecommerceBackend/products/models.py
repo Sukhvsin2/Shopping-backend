@@ -4,6 +4,7 @@ from django.utils.text import slugify
 class Category(models.Model):
     category_name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, blank=True)
+    image = models.ImageField(upload_to='static/category', blank=True)
     
 
     #  this method'd call instanly after creating instance & set slug = category_name

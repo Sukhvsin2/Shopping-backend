@@ -13,8 +13,8 @@ class CartView(APIView):
         cart = Cart.objects.filter(user=user, ordered=False).first()
         queryset = CartItems.objects.filter(cart=cart)
         serializer = CartItemSerializer(queryset, many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)
-    
+        return Response({'total': len(serializer.data),'data':serializer.data},status=status.HTTP_200_OK)
+
     def post(self, request):
         data = request.data
         user = request.user
@@ -32,7 +32,6 @@ class CartView(APIView):
         cart.total_price = total_price
         cart.save()
         return Response({'data': 'Item Added!'},status=status.HTTP_200_OK)
-
 
     def put(self, request):
         data = request.data
@@ -53,3 +52,13 @@ class CartView(APIView):
         queryset = CartItems.objects.filter(cart=cart)
         serializer = CartItemSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class OrderAPI(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        queryset = Orders.objects.filter(user=request.user)
+        serializer = OrderSerializer(queryset, many=True)
+        if serializer.is_valid:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.error_messages, status=status.HTTP_404_NOT_FOUND)
